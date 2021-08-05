@@ -26,9 +26,21 @@ const dotenv = __importStar(require("dotenv"));
 dotenv.config({ path: `src/config/config.env` });
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const express_session_1 = __importDefault(require("express-session"));
+const passport_1 = __importDefault(require("passport"));
+require("./auth/passportConfig")(passport_1.default);
 const postRoutes_1 = __importDefault(require("./routes/postRoutes"));
+const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 const app = express_1.default();
+process.on("uncaughtException", () => {
+    process.exit(1);
+});
 app.use(express_1.default.json());
+app.use(express_session_1.default({
+    secret: `${process.env.SESSION_SECRET}`,
+    resave: true,
+    saveUninitialized: true,
+}));
 const DB = process.env.DATABASE.replace(/<password>/gi, process.env.DATABASE_PASSWORD);
 const port = process.env.PORT || 8000;
 const currentTime = new Date();
@@ -45,5 +57,16 @@ mongoose_1.default
     .catch((err) => {
     console.log(err);
 });
+app.use(passport_1.default.initialize());
+app.use(passport_1.default.session());
 app.use("/api/v1/posts", postRoutes_1.default);
-app.listen(port);
+app.use("/api/v1/users", userRoutes_1.default);
+const server = app.listen(port);
+process.on("unhandledRejection", (err) => {
+    //On unhandled rejection, exit process
+    // eslint-disable-next-line no-console
+    console.log(err.name, err.message);
+    server.close(() => {
+        process.exit(1);
+    });
+});

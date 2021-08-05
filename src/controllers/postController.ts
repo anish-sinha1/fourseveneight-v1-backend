@@ -3,6 +3,12 @@ import { Post, IPost } from "../models/postModel";
 import { Document } from "mongoose";
 import { Body, authFunctions } from "../auth/authFunctions";
 
+/**
+ * @route GET /api/v1/posts/
+ * @description Fetches all posts from the database
+ * @access public
+ */
+
 export const getAllPosts: RequestHandler = async (req, res, next) => {
   try {
     const doc: Document[] = await Post.find();
@@ -21,6 +27,12 @@ export const getAllPosts: RequestHandler = async (req, res, next) => {
     });
   }
 };
+
+/**
+ * @route POST /api/v1/posts/
+ * @description creates a post with a cleaned version of the request body (to prevent security issues)
+ * @access protected
+ */
 
 export const createPost: RequestHandler = async (req, res, next) => {
   try {

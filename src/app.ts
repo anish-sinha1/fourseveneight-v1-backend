@@ -2,12 +2,27 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: `src/config/config.env` });
 import express from "express";
 import mongoose from "mongoose";
+import session from "express-session";
+import passport from "passport";
+require("./auth/passportConfig")(passport);
 
 import postRouter from "./routes/postRoutes";
+import userRouter from "./routes/userRoutes";
 
 const app = express();
+process.on("uncaughtException", () => {
+  process.exit(1);
+});
 
 app.use(express.json());
+
+app.use(
+  session({
+    secret: `${process.env.SESSION_SECRET}`, // use session secret in config.env
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
 const DB: string = process.env.DATABASE!.replace(
   /<password>/gi,
@@ -33,6 +48,19 @@ mongoose
     console.log(err);
   });
 
-app.use("/api/v1/posts", postRouter);
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.listen(port);
+app.use("/api/v1/posts", postRouter);
+app.use("/api/v1/users", userRouter);
+
+const server = app.listen(port);
+
+process.on("unhandledRejection", (err: Error) => {
+  //On unhandled rejection, exit process
+  // eslint-disable-next-line no-console
+  console.log(err.name, err.message);
+  server.close(() => {
+    process.exit(1);
+  });
+});
