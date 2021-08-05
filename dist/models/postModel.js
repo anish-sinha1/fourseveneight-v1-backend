@@ -59,6 +59,7 @@ const postSchema = new mongoose_1.Schema({
     tags: {
         type: [String],
         enum: tags_1.default,
+        required: true,
         min: 1,
         max: 5,
     },

@@ -40,7 +40,7 @@ mongoose_1.default
     useUnifiedTopology: true,
 })
     .then(() => {
-    console.log(`Database connection successful as of ${currentTime.toLocaleString()}!`);
+    console.log(`Database connection successful as of ${currentTime.toLocaleString()}!\nServer running on port ${port}`);
 })
     .catch((err) => {
     console.log(err);

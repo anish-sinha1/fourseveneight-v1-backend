@@ -26,7 +26,7 @@ mongoose
   })
   .then(() => {
     console.log(
-      `Database connection successful as of ${currentTime.toLocaleString()}!`
+      `Database connection successful as of ${currentTime.toLocaleString()}!\nServer running on port ${port}`
     );
   })
   .catch((err) => {

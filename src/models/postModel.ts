@@ -55,6 +55,7 @@ const postSchema: Schema<IPost> = new Schema(
     tags: {
       type: [String],
       enum: tags,
+      required: true,
       min: 1,
       max: 5,
     },

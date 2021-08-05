@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createPost = exports.getAllPosts = void 0;
 const postModel_1 = require("../models/postModel");
+const authFunctions_1 = require("../auth/authFunctions");
 const getAllPosts = async (req, res, next) => {
     try {
         const doc = await postModel_1.Post.find();
@@ -24,8 +25,10 @@ const getAllPosts = async (req, res, next) => {
 exports.getAllPosts = getAllPosts;
 const createPost = async (req, res, next) => {
     try {
-        const doc = await postModel_1.Post.create(req.body);
-        res.status(200).json({
+        const sanitizedBody = authFunctions_1.authFunctions.sanitizeBody(req.body, "title", "content", "tags", "length", "difficulty", "commentsActive");
+        console.log(sanitizedBody);
+        const doc = await postModel_1.Post.create(sanitizedBody);
+        res.status(201).json({
             status: "success!",
             data: {
                 doc,
