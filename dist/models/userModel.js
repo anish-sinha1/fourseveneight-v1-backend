@@ -64,7 +64,7 @@ const userSchema = new mongoose_1.Schema({
         minlength: 8,
         select: false,
     },
-    photo: {
+    profilePhoto: {
         type: String,
         default: "default.jpg",
     },

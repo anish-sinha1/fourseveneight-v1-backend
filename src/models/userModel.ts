@@ -12,7 +12,7 @@ export interface IUser extends Document {
   confirmedEmail: boolean;
   username: string;
   password: string;
-  photo: string;
+  profilePhoto: string;
   role: string;
   active: boolean;
   accountCreatedAt: Date;
@@ -63,7 +63,7 @@ const userSchema: Schema<IUser> = new Schema(
       minlength: 8,
       select: false,
     },
-    photo: {
+    profilePhoto: {
       type: String,
       default: "default.jpg",
     },
