@@ -26,6 +26,7 @@ const dotenv = __importStar(require("dotenv"));
 dotenv.config({ path: `src/config/config.env` });
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const postRoutes_1 = __importDefault(require("./routes/postRoutes"));
 const app = express_1.default();
 app.use(express_1.default.json());
 const DB = process.env.DATABASE.replace(/<password>/gi, process.env.DATABASE_PASSWORD);
@@ -44,5 +45,5 @@ mongoose_1.default
     .catch((err) => {
     console.log(err);
 });
-console.log(port);
+app.use("/api/v1/posts", postRoutes_1.default);
 app.listen(port);

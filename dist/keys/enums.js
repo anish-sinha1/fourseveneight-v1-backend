@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.possibleDifficultyLevels = exports.possibleLengthDescriptors = void 0;
+exports.possibleRoles = exports.possibleDifficultyLevels = exports.possibleLengthDescriptors = void 0;
 exports.possibleLengthDescriptors = [
     "3 minute read",
     "5 minute read",
@@ -15,3 +15,4 @@ exports.possibleDifficultyLevels = [
     "advanced",
     "expert",
 ];
+exports.possibleRoles = ["user", "moderator", "admin", "root"];

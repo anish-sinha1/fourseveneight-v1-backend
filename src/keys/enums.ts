@@ -13,3 +13,5 @@ export const possibleDifficultyLevels: string[] = [
   "advanced",
   "expert",
 ];
+
+export const possibleRoles: string[] = ["user", "moderator", "admin", "root"];

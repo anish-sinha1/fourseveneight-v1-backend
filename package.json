@@ -10,16 +10,20 @@
   "author": "Anish Sinha",
   "license": "ISC",
   "dependencies": {
-    "@types/mongoose": "^5.11.97",
     "@types/express": "^4.17.13",
+    "@types/jsonwebtoken": "^8.5.4",
+    "@types/mongoose": "^5.11.97",
     "@types/node": "^16.4.12",
+    "@types/validator": "^13.6.3",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.5",
     "nodemon": "^2.0.12",
     "passport": "^0.4.1",
-    "slugify": "^1.6.0"
+    "slugify": "^1.6.0",
+    "validator": "^13.6.0"
   },
   "devDependencies": {
     "eslint": "^7.32.0",

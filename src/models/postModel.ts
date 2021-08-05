@@ -6,7 +6,7 @@ import {
   possibleDifficultyLevels,
 } from "../keys/enums";
 
-export interface Post extends Document {
+export interface IPost extends Document {
   title: string;
   content: string;
   publicationDate: Date;
@@ -21,7 +21,7 @@ export interface Post extends Document {
   commentsActive: boolean;
 }
 
-const postSchema: Schema = new Schema(
+const postSchema: Schema<IPost> = new Schema(
   {
     title: {
       type: String,
@@ -89,4 +89,4 @@ const postSchema: Schema = new Schema(
   }
 );
 
-export const Post: Model<Post> = model("Post", postSchema);
+export const Post: Model<IPost> = model("Post", postSchema);

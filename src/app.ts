@@ -3,6 +3,8 @@ dotenv.config({ path: `src/config/config.env` });
 import express from "express";
 import mongoose from "mongoose";
 
+import postRouter from "./routes/postRoutes";
+
 const app = express();
 
 app.use(express.json());
@@ -31,6 +33,6 @@ mongoose
     console.log(err);
   });
 
-console.log(port);
+app.use("/api/v1/posts", postRouter);
 
 app.listen(port);
