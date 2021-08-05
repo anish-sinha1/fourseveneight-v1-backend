@@ -11,7 +11,7 @@ export interface IComment extends Document {
   superUserModified: Boolean;
 }
 
-const commentSchema = new Schema({
+const commentSchema: Schema<IComment> = new Schema({
   author: [
     {
       type: mongoose.Schema.Types.ObjectId,
