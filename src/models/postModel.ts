@@ -16,8 +16,8 @@ export interface Post extends Document {
   tags: string[];
   length: string;
   difficulty: string;
-  likes: number;
-  comments: mongoose.Schema.Types.ObjectId[];
+  likes?: number;
+  comments?: mongoose.Schema.Types.ObjectId[];
   commentsActive: boolean;
 }
 
