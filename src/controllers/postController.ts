@@ -54,18 +54,11 @@ export const createPost: RequestHandler = async (req, res, next) => {
     );
 
     const authors: mongoose.Schema.Types.ObjectId[] = [req.user._id];
-    const authorNames: string[] = [];
+
     sanitizedBody.authors = authors;
-
-    authors.map(async (authorId) => {
-      const author = await User.findById(authorId);
-      const fullName: string = [author?.firstName, author?.lastName].join(" ");
-      authorNames.push(fullName);
-    });
-
-    console.log(authorNames);
-
-    sanitizedBody.authorNames = authorNames;
+    sanitizedBody.authorNames = [
+      [req.user.firstName, req.user.lastName].join(" "),
+    ];
 
     const doc: IPost = await Post.create(sanitizedBody);
     res.status(201).json({
