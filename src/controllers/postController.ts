@@ -1,7 +1,13 @@
-import { RequestHandler } from "express";
+import { RequestHandler, Request, Response, NextFunction } from "express";
 import { Post, IPost } from "../models/postModel";
-import { Document } from "mongoose";
+import mongoose, { Document } from "mongoose";
 import { Body, authFunctions } from "../auth/authFunctions";
+import { IUser, User } from "../models/userModel";
+declare module "express-serve-static-core" {
+  interface Request {
+    user: IUser;
+  }
+}
 
 /**
  * @route GET /api/v1/posts/
@@ -11,7 +17,8 @@ import { Body, authFunctions } from "../auth/authFunctions";
 
 export const getAllPosts: RequestHandler = async (req, res, next) => {
   try {
-    const doc: Document[] = await Post.find();
+    let doc: IPost[] | string = await Post.find();
+    doc = JSON.stringify(doc);
     res.status(200).json({
       status: "success",
       data: {
@@ -45,7 +52,21 @@ export const createPost: RequestHandler = async (req, res, next) => {
       "difficulty",
       "commentsActive"
     );
-    console.log(sanitizedBody);
+
+    const authors: mongoose.Schema.Types.ObjectId[] = [req.user._id];
+    const authorNames: string[] = [];
+    sanitizedBody.authors = authors;
+
+    authors.map(async (authorId) => {
+      const author = await User.findById(authorId);
+      const fullName: string = [author?.firstName, author?.lastName].join(" ");
+      authorNames.push(fullName);
+    });
+
+    console.log(authorNames);
+
+    sanitizedBody.authorNames = authorNames;
+
     const doc: IPost = await Post.create(sanitizedBody);
     res.status(201).json({
       status: "success!",

@@ -1,6 +1,7 @@
 import * as dotenv from "dotenv";
 dotenv.config({ path: `src/config/config.env` });
 import express from "express";
+import cors from "cors";
 import mongoose from "mongoose";
 import session from "express-session";
 import passport from "passport";
@@ -10,6 +11,7 @@ import postRouter from "./routes/postRoutes";
 import userRouter from "./routes/userRoutes";
 
 const app = express();
+app.use(cors());
 process.on("uncaughtException", () => {
   process.exit(1);
 });

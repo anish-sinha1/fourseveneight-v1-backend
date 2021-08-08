@@ -25,6 +25,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv = __importStar(require("dotenv"));
 dotenv.config({ path: `src/config/config.env` });
 const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const express_session_1 = __importDefault(require("express-session"));
 const passport_1 = __importDefault(require("passport"));
@@ -32,6 +33,7 @@ require("./auth/passportConfig")(passport_1.default);
 const postRoutes_1 = __importDefault(require("./routes/postRoutes"));
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 const app = express_1.default();
+app.use(cors_1.default());
 process.on("uncaughtException", () => {
     process.exit(1);
 });

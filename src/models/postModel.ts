@@ -7,18 +7,21 @@ import {
 } from "../keys/enums";
 
 export interface IPost extends Document {
+  _id: mongoose.Schema.Types.ObjectId;
   title: string;
   content: string;
   publicationDate: Date;
   active: boolean;
   slug: string;
   authors: mongoose.Schema.Types.ObjectId[];
+  authorNames: string[];
   tags: string[];
   length: string;
   difficulty: string;
   likes?: number;
   comments?: mongoose.Schema.Types.ObjectId[];
   commentsActive: boolean;
+  summary?: string;
 }
 
 const postSchema: Schema<IPost> = new Schema(
@@ -52,12 +55,22 @@ const postSchema: Schema<IPost> = new Schema(
         required: true,
       },
     ],
+    authorNames: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
     tags: {
       type: [String],
       enum: tags,
       required: true,
       min: 1,
       max: 5,
+    },
+    summary: {
+      type: String,
+      required: false,
     },
     length: {
       type: String,
@@ -89,5 +102,10 @@ const postSchema: Schema<IPost> = new Schema(
     toObject: { virtuals: true },
   }
 );
+
+postSchema.pre("save", function (next) {
+  this.slug = slugify(this.title, { lower: true });
+  next();
+});
 
 export const Post: Model<IPost> = model("Post", postSchema);

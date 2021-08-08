@@ -11,4 +11,15 @@ exports.authFunctions = {
         });
         return sanitizedObject;
     },
+    authenticateUser: function (req, res, next) {
+        if (req.isAuthenticated()) {
+            return next();
+        }
+        return res.status(403).json({
+            status: "failed",
+            data: {
+                message: "unable to authenticate!",
+            },
+        });
+    },
 };

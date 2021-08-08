@@ -5,6 +5,44 @@ import { RequestHandler } from "express";
 import { authFunctions, Body } from "../auth/authFunctions";
 
 /**
+ * @route POST /api/v1/users/login
+ * @description allows user to login
+ * @access public
+ */
+
+export const login: RequestHandler = (req, res, next) => {
+  passport.authenticate("local", {
+    successRedirect: "/dashboard",
+    failureRedirect: "/login",
+  })(req, res, next);
+};
+
+/**
+ * @route GET /api/v1/users/logout
+ * @description logs a user out, then redirects them to '/'
+ * @access protected
+ */
+
+export const logout: RequestHandler = (req, res, next) => {
+  if (req.user) {
+    req.logout();
+    res.status(200).json({
+      status: "success",
+      data: {
+        message: "Successfully logged out!",
+      },
+    });
+  } else {
+    res.status(403).json({
+      status: "failed",
+      data: {
+        message: "no user to log out!",
+      },
+    });
+  }
+};
+
+/**
  * @route POST /api/v1/users/register
  * @description allows a user to register
  * @access public

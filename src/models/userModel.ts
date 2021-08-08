@@ -5,6 +5,7 @@ import spaces from "../keys/tags";
 import { possibleRoles as roles } from "../keys/enums";
 
 export interface IUser extends Document {
+  _id: mongoose.Schema.Types.ObjectId;
   firstName: string;
   lastName: string;
   middleName?: string;

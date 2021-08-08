@@ -24,6 +24,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Post = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
+const slugify_1 = __importDefault(require("slugify"));
 const tags_1 = __importDefault(require("../keys/tags"));
 const enums_1 = require("../keys/enums");
 const postSchema = new mongoose_1.Schema({
@@ -56,12 +57,22 @@ const postSchema = new mongoose_1.Schema({
             required: true,
         },
     ],
+    authorNames: [
+        {
+            type: String,
+            required: true,
+        },
+    ],
     tags: {
         type: [String],
         enum: tags_1.default,
         required: true,
         min: 1,
         max: 5,
+    },
+    summary: {
+        type: String,
+        required: false,
     },
     length: {
         type: String,
@@ -90,5 +101,9 @@ const postSchema = new mongoose_1.Schema({
 }, {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
+});
+postSchema.pre("save", function (next) {
+    this.slug = slugify_1.default(this.title, { lower: true });
+    next();
 });
 exports.Post = mongoose_1.model("Post", postSchema);
