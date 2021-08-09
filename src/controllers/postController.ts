@@ -1,8 +1,8 @@
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import { Post, IPost } from "../models/postModel";
-import mongoose, { Document } from "mongoose";
+import mongoose from "mongoose";
 import { Body, authFunctions } from "../auth/authFunctions";
-import { IUser, User } from "../models/userModel";
+import { IUser } from "../models/userModel";
 declare module "express-serve-static-core" {
   interface Request {
     user: IUser;
